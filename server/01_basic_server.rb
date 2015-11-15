@@ -6,7 +6,6 @@ require 'logger'
 class Server
 
   def start(bind: '0.0.0.0', port: nil, backlog: 10)
-    
     sock = Socket.new(:INET, :STREAM)
     sock.setsockopt(:SOL_SOCKET, :SO_REUSEADDR, true)
 
@@ -21,8 +20,8 @@ class Server
     log { "client connected from %s:%d" % [client_addr.ip_address, client_addr.ip_port] }
 
     client.puts "Hello there! %s" % Time.now
-    loop do
 
+    loop do
       # read
       input = client.gets.chomp
       if input == "q"

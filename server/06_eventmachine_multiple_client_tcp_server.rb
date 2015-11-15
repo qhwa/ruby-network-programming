@@ -4,9 +4,7 @@ require 'logger'
 class Server
 
   def start(bind: '0.0.0.0', port: nil)
-    EM.run do
-      EM.start_server bind, port, Handler
-    end
+    EM.run { EM.start_server bind, port, Handler }
   end
 
   module Handler
@@ -16,7 +14,6 @@ class Server
     # by you). The instance of Connection class with automaticly invoke
     # `post_init` method
     def post_init
-      @client_addr = client_addr
       log { "new client connected from: %s:%d" % client_addr }
     end
 
@@ -32,7 +29,7 @@ class Server
     end
 
     def unbind
-      log { "client disconnected from: %s:%d" % @client_addr }
+      log { "client disconnected from: %s:%d" % client_addr }
     end
 
     private
@@ -42,7 +39,7 @@ class Server
       end
 
       def client_addr
-        Socket.unpack_sockaddr_in(get_peername).reverse
+        @client_addr ||= Socket.unpack_sockaddr_in(get_peername).reverse
       end
 
   end

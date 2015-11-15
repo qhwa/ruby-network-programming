@@ -21,7 +21,6 @@ class Server
     attr_accessor :dest_host, :dest_port, :proxy_conn, :data
 
     def post_init
-      @client_addr = client_addr
       log { "new client connected from: %s:%d" % client_addr }
     end
 
@@ -82,7 +81,7 @@ class Server
     end
 
     def unbind
-      log { "client disconnected from: %s:%d" % @client_addr }
+      log { "client disconnected from: %s:%d" % client_addr }
     end
 
     private
@@ -92,7 +91,7 @@ class Server
       end
 
       def client_addr
-        Socket.unpack_sockaddr_in(get_peername).reverse
+        @client_addr ||= Socket.unpack_sockaddr_in(get_peername).reverse
       end
 
   end

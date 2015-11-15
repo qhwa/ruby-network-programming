@@ -11,6 +11,10 @@ class Server
       
       loop do
         input = sock.gets.chomp
+        if input == "q"
+          sock.close
+          break
+        end
         sock.puts input.reverse
       end
 
