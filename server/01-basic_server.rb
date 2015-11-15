@@ -8,6 +8,7 @@ class Server
   def start(bind: '0.0.0.0', port: nil, backlog: 10)
     
     sock = Socket.new(:INET, :STREAM)
+    sock.setsockopt(:SOL_SOCKET, :SO_REUSEADDR, true)
 
     # bind
     sock.bind Addrinfo.tcp bind, port
@@ -21,18 +22,22 @@ class Server
 
     client.puts "Hello there! %s" % Time.now
     loop do
+
+      # read
       input = client.gets.chomp
       if input == "q"
         log { "client disconnected from %s:%d" % [client_addr.ip_address, client_addr.ip_port] }
         break
       else
+        # write
         client.puts input.reverse
       end
     end
+
+    # close
     client.close
   ensure
     sock.close
-    sock = nil
   end
 
   def log(msg=nil, &block)
