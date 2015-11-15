@@ -29,11 +29,3 @@ class Server
 end
 
 Server.new.start(port: 23333, bind: '127.0.0.1')
-
-# bind
-# listen
-# read
-# write
-# close
-#
-# watch -n 0 'netstat -nta | grep 23333'
