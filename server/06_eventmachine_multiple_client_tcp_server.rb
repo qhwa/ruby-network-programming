@@ -3,7 +3,7 @@ require 'logger'
 
 class Server
 
-  def start(bind: '0.0.0.0', port: nil, backlog: 10)
+  def start(bind: '0.0.0.0', port: nil)
     EM.run do
       EM.start_server bind, port, Handler
     end

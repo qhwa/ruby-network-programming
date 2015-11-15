@@ -3,7 +3,7 @@ require 'logger'
 
 class Server
 
-  def start(bind: '0.0.0.0', port: nil, backlog: 10)
+  def start(bind: '0.0.0.0', port: nil)
     Socket.tcp_server_loop(bind, port) do |sock, client_addr|
       Thread.new do
         log { "client connected: %s:%d" % [client_addr.ip_address, client_addr.ip_port] }
